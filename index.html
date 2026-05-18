@@ -1,94 +1,177 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="it">
+
 <head>
-    <title>Rubrica</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gioco Rubrica</title>
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family:'Times New Roman', Times, serif;
+            background-image: url('./media/sfondo.jpg');
+           background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .contenitore {
+            width: 90%;
+            max-width: 650px;
+            background-color: white;
+            padding: 25px;
+            border-radius: 20px;
+        }
+
+        h1 {
+            font-size: 44px;
+            text-align: center;
+            color: black;
+            margin-top: 0;
+            font-weight: bold;
+        }
+
+        .telefono {
+            width: 100%;
+            height: 190px;
+            margin: 15px auto;
+            background-color: #222;
+            border-radius: 25px;
+            padding: 12px;
+        }
+
+        .schermo {
+            height: 150px;
+            background-color:yellowgreen;
+            border-radius: 25px;
+            text-align: center;
+            padding-top: 20px;
+            box-sizing: border-box;
+            font-weight: bold;
+            color: black;
+        }
 
 
-<style>
+        /* sezione inputs */
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
 
-.card-body{
-height: 300px;
-width: 600px;
-    color:lime;
-    font-weight: 700;
-    border: 9px solid red;
-    border-radius: 20px;
-}
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid red;
+            border-radius: 8px;
+            font-size: 16px;
+        }
 
+        button {
+            padding: 10px 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
-.card-body:hover{
+        .btn-aggiungi {
+            background-color: #198754;
+            color: white;
+        }
 
-    color: darkgreen;
-    text-shadow: 6px 10px 12px yellowgreen, -6px 102px -12px yellow;
-    font-weight: 700;
-}
+        .btn-mostra {
+            background-color: gray;
+            color: white;
+            margin-bottom: 15px;
+        }
 
-body{
-    background-color: aquamarine;
-}
+        .btn-modifica {
+            background-color: cyan;
+            color: black;
+        }
 
+        .btn-elimina {
+            background-color: grey;
+            color: white;
+        }
 
-</style>
+        .contatto {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color:wheat;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
 
+        .azioni button {
+            margin-left: 5px;
+        }
 
+        .vuoto {
+            text-align: center;
+            color: grey;
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+        }
 
+        @media (max-width: 600px) {
+            .input-area {
+                flex-direction: column;
+            }
 
+            .contatto {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
 
-
-
-
-
-
-
-
+        /* FINE  TYLE CSS INTERNO */
+    </style>
 
 
 </head>
+
+
+<!-- GERARCHIA: ALBERO DEL DOM -->
 <body>
+    <!-- CONTENITORE PRINCIPALE/ GENITORE -->
 
-<div class="container">
-    <!-- LOGIN -->
-    <div id="login">
-        <div class="card mx-auto" style="max-width: 400px; margin-top: 100px;">
-            <div class="card-body text-center">
-                <h2>📱 Rubrica</h2>
-                <p>Inserisci PIN:</p>
-                <input type="password" id="pin" class="form-control mb-3" maxlength="4" placeholder="1234">
-                <button class="btn btn-success w-100" onclick="entra()">ENTRA</button>
-                <br><small>PIN: 1234</small>
+    <div class="contenitore">
+        <h1>Gioco Rubrica</h1>
+<!-- DIV AL INTERNO- FIGLI E DISCENDENTI( + IN PROFONDITA') -->
+        <div class="telefono">
+            <div class="schermo">
+                RUBRICA<br>
+                CONTATTI<br>
+                <span id="numeroContatti">0</span>
             </div>
         </div>
-    </div>
 
-    <!-- PRINCIPALE -->
-    <div id="principale" style="display: none;">
-        <div class="card mx-auto" style="max-width: 800px;">
-            <div class="card-header bg-primary text-white">
-                <h3>Rubrica <button class="btn btn-sm float-end" onclick="esci()">ESCI</button></h3>
-            </div>
-            <div class="card-body">
-                <!-- AGGIUNGI -->
-                <div class="row mb-4">
-                    <div class="col-5">
-                        <input type="text" id="nome" class="form-control" placeholder="Nome">
-                    </div>
-                    <div class="col-5">
-                        <input type="text" id="tel" class="form-control" placeholder="Telefono">
-                    </div>
-                    <div class="col-2">
-                        <button class="btn btn-success w-100" onclick="aggiungi()">+</button>
-                    </div>
-                </div>
-
-                <!-- LISTA -->
-                <div id="lista"></div>
-            </div>
+        <!-- MANIPOLABILE DA JS -->
+        <div class="input-area">
+            <input type="text" id="nome" placeholder="Inserisci nome">
+            <input type="text" id="numero" placeholder="Inserisci numero">
+            <button class="btn-aggiungi" onclick="aggiungiContatto()">Aggiungi</button>
         </div>
-    </div>
-</div>
 
-<script src="main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/js/bootstrap.bundle.min.js"></script>
+        <button class="btn-mostra" onclick="mostraNascondi()">Mostra / Nascondi contatti</button>
+
+        <div id="listaContatti"></div>
+    </div>
+
+
+    <!-- COLLEGATO MAIN JAVASCRIPT ESTERNO -->
+
+
+    <script src="main.js"></script>
 </body>
+
 </html>

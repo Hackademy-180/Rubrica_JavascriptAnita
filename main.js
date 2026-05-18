@@ -1,91 +1,153 @@
-let rubrica = {
-    lista: [],
-    pin: "1234"
-};
 
-// CARICA AL VIA
-rubrica.lista = JSON.parse(localStorage.getItem("contatti")) || [];
 
-// LOGIN
-function entra() {
-    let pin = document.getElementById("pin").value;
-    if (pin == rubrica.pin) {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("principale").style.display = "block";
-        mostra();
-    } else {
-        alert("PIN SBAGLIATO!");
-        document.getElementById("pin").value = "";
-    }
-}
+// Lista dove salvo i contatti
+let contatti = [];
 
-// EXIT
-function esci() {
-    document.getElementById("login").style.display = "block";
-    document.getElementById("principale").style.display = "none";
-    document.getElementById("pin").value = "";
-}
+// Variabile per mostrare o nascondere i contatti
+let contattiVisibili = true;
 
-// AGGIUNGI
-function aggiungi() {
+// AGGIUNGE UN NUOVO CONTATTO
+function aggiungiContatto() {
+    //legge numero che hai inserito in input, con ID #
     let nome = document.getElementById("nome").value;
-    let tel = document.getElementById("tel").value;
-    
-    if (nome && tel) {
-        rubrica.lista.push({nome: nome, tel: tel});
-        salva();
-        mostra();
-        document.getElementById("nome").value = "";
-        document.getElementById("tel").value = "";
+    let numero = document.getElementById("numero").value;
+
+    // condizione di controllo: se uno dei 2 campi resta vuoto;
+
+    if (nome == "" || numero == "") {
+        alert("Inserisci sia il nome sia il numero");
+//
+        return;
+    }
+
+
+    //Oggetto = rappresenta il contatto ( crea oggetto );
+    let nuovoContatto = {
+        nome: nome,
+        numero: numero
+    };
+//Aggiungo un nuovo contatto in Array x contatti con metodo push
+
+    contatti.push(nuovoContatto);
+//valore svuota campi input - dopo l'Inserimento
+    document.getElementById("nome").value = "";
+    document.getElementById("numero").value = "";
+
+    mostraContatti();
+}
+
+
+
+
+
+// MOSTRA O NASCONDE I CONTATTI
+
+function mostraNascondi() {
+    if (contattiVisibili == true) {
+        contattiVisibili = false;
     } else {
-        alert("METTI NOME E TELEFONO!");
+        contattiVisibili = true;
     }
+
+
+    //Richiama funzione e la visualizzazione
+    mostraContatti();
 }
 
-// ELIMINA
-function elimina(posizione) {
-    if (confirm("Cancelli?")) {
-        rubrica.lista.splice(posizione, 1);
-        salva();
-        mostra();
-    }
-}
+// OPPURE QUESTA FUNZIONE SEMPLIFICATA: 
+// function mostraNascondi() {
+//     contattiVisibili = !contattiVisibili;
+//     mostraContatti();
+// }
 
-// MOSTRA
-function mostra() {
-    let lista = document.getElementById("lista");
-    lista.innerHTML = "";
-    
-    for (let i = 0; i < rubrica.lista.length; i++) {
-        let div = document.createElement("div");
-        div.className = "card mb-2";
-        div.innerHTML = `
-            <div class="card-body">
-                <div class="d-flex">
-                    <div>
-                        <h5>${rubrica.lista[i].nome}</h5>
-                        <p>${rubrica.lista[i].tel}</p>
-                    </div>
-                    <button class="btn btn-danger ms-auto" onclick="elimina(${i})">X</button>
+
+// MOSTRA LA LISTA DEI CONTATTI
+function mostraContatti() {
+let lista = document.getElementById("listaContatti");
+    let numeroContatti = document.getElementById("numeroContatti");
+//aggiorna
+            numeroContatti.innerHTML = contatti.length;
+
+//pulizia del contenitore prima che si riscriva tutto 
+            lista.innerHTML = "";
+//FUNZIONE NASCONDE LISTA
+    if (contattiVisibili == false) {
+        lista.style.display = "none";
+        return;
+    }
+
+ //RENDERE LA LISTA VISIBILE
+    lista.style.display = "block";
+//CONDIZIONE, Se non ci sono contatti mostrami messaggio vuoto;
+    if (contatti.length == 0) {
+        lista.innerHTML = '<div class="vuoto">Non ci sono contatti</div>';
+        return;
+    }
+//CICLARE TUTTI CONTATTI IN ARRAY
+    for (let i = 0; i < contatti.length; i++) {
+
+        //Aggiungo pulsanti e contatto in Html:
+
+        lista.innerHTML += `
+            <div class="contatto">
+                <div>
+                    <strong>${contatti[i].nome}</strong><br>
+                    <span>${contatti[i].numero}</span>
+                </div>
+
+                <div class="azioni">
+                    <button class="btn-modifica" onclick="modificaContatto(${i})">Modifica</button>
+                    <button class="btn-elimina" onclick="eliminaContatto(${i})">Elimina</button>
                 </div>
             </div>
         `;
-        lista.appendChild(div);
     }
 }
 
-// SALVA
-function salva() {
-    localStorage.setItem("contatti", JSON.stringify(rubrica.lista));
+// ELIMINA UN CONTATTO
+function eliminaContatto(posizione) {
+    contatti.splice(posizione, 1);
+    mostraContatti();
 }
 
-// INVIO CON ENTER
-document.addEventListener("keypress", function(e) {
-    if (e.key == "Enter") {
-        if (document.getElementById("login").style.display != "none") {
-            entra();
-        } else {
-            aggiungi();
-        }
+// MODIFICA UN CONTATTO
+function modificaContatto(posizione) {
+
+
+    let nuovoNome = prompt("Modifica nome", contatti[posizione].nome);
+    let nuovoNumero = prompt("Modifica numero", contatti[posizione].numero);
+//controllo se i nuovi valori non siano vuoti
+            if (nuovoNome == null || nuovoNumero == null) {
+                return;
+            }
+
+            if (nuovoNome == "" || nuovoNumero == "") {
+                alert("Nome e numero non possono essere vuoti");
+                return;
+            }
+//aggiorna nome del contatto
+    contatti[posizione].nome = nuovoNome;
+    //aggiorna il numero contatto
+    contatti[posizione].numero = nuovoNumero;
+
+   //mostra lo status iniziale
+    mostraContatti();
+  
+    
+}
+
+
+
+// PREMENDO INVIO AGGIUNGE IL CONTATTO
+
+document.addEventListener("keydown", function(evento) {
+    if (evento.key == "Enter") {
+        aggiungiContatto();
     }
+
+
 });
+
+// ALL'INIZIO MOSTRO LA LISTA VUOTA
+
+mostraContatti();
