@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gioco Rubrica</title>
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family:'Times New Roman', Times, serif;
+            background-image: url('./media/sfondo.jpg');
+           background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .contenitore {
+            width: 90%;
+            max-width: 650px;
+            background-color: white;
+            padding: 25px;
+            border-radius: 20px;
+        }
+
+        h1 {
+            font-size: 44px;
+            text-align: center;
+            color: black;
+            margin-top: 0;
+            font-weight: bold;
+        }
+
+        .telefono {
+            width: 100%;
+            height: 190px;
+            margin: 15px auto;
+            background-color: #222;
+            border-radius: 25px;
+            padding: 12px;
+        }
+
+        .schermo {
+            height: 150px;
+            background-color:yellowgreen;
+            border-radius: 25px;
+            text-align: center;
+            padding-top: 20px;
+            box-sizing: border-box;
+            font-weight: bold;
+            color: black;
+        }
+
+
+        /* sezione inputs */
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid red;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-aggiungi {
+            background-color: #198754;
+            color: white;
+        }
+
+        .btn-mostra {
+            background-color: gray;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .btn-modifica {
+            background-color: cyan;
+            color: black;
+        }
+
+        .btn-elimina {
+            background-color: grey;
+            color: white;
+        }
+
+        .contatto {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color:wheat;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .azioni button {
+            margin-left: 5px;
+        }
+
+        .vuoto {
+            text-align: center;
+            color: grey;
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .input-area {
+                flex-direction: column;
+            }
+
+            .contatto {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+
+        /* FINE  TYLE CSS INTERNO */
+    </style>
+
+
+</head>
+
+
+<!-- GERARCHIA: ALBERO DEL DOM -->
+<body>
+    <!-- CONTENITORE PRINCIPALE/ GENITORE -->
+
+    <div class="contenitore">
+        <h1>Gioco Rubrica</h1>
+<!-- DIV AL INTERNO- FIGLI E DISCENDENTI( + IN PROFONDITA') -->
+        <div class="telefono">
+            <div class="schermo">
+                RUBRICA<br>
+                CONTATTI<br>
+                <span id="numeroContatti">0</span>
+            </div>
+        </div>
+
+        <!-- MANIPOLABILE DA JS -->
+        <div class="input-area">
+            <input type="text" id="nome" placeholder="Inserisci nome">
+            <input type="text" id="numero" placeholder="Inserisci numero">
+            <button class="btn-aggiungi" onclick="aggiungiContatto()">Aggiungi</button>
+        </div>
+
+        <button class="btn-mostra" onclick="mostraNascondi()">Mostra / Nascondi contatti</button>
+
+        <div id="listaContatti"></div>
+    </div>
+
+
+    <!-- COLLEGATO MAIN JAVASCRIPT ESTERNO -->
+
+
+    <script src="main.js"></script>
+</body>
+
+</html>
