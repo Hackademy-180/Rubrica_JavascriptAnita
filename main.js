@@ -1,153 +1,180 @@
 
 
-// Lista dove salvo i contatti
-let contatti = [];
+// cattura con il dom querySelector ed ID
 
-// Variabile per mostrare o nascondere i contatti
-let contattiVisibili = true;
-
-// AGGIUNGE UN NUOVO CONTATTO
-function aggiungiContatto() {
-    //legge numero che hai inserito in input, con ID #
-    let nome = document.getElementById("nome").value;
-    let numero = document.getElementById("numero").value;
-
-    // condizione di controllo: se uno dei 2 campi resta vuoto;
-
-    if (nome == "" || numero == "") {
-        alert("Inserisci sia il nome sia il numero");
-//
-        return;
-    }
+let nameInput = document.querySelector('#nameInput')
+let numberInput = document.querySelector('#numberInput')
 
 
-    //Oggetto = rappresenta il contatto ( crea oggetto );
-    let nuovoContatto = {
-        nome: nome,
-        numero: numero
-    };
-//Aggiungo un nuovo contatto in Array x contatti con metodo push
+let btnShow = document.querySelector('#btnShow')
+let btnAdd = document.querySelector('#btnAdd')
+let btnEdit = document.querySelector('#btnEdit')
+let btnRemove = document.querySelector('#btnRemove')
 
-    contatti.push(nuovoContatto);
-//valore svuota campi input - dopo l'Inserimento
-    document.getElementById("nome").value = "";
-    document.getElementById("numero").value = "";
+        // FUNZIONE CHE RICERCA valore per risposta
+        let check = false
+        // lasciando un div apprima in html vuoto ora loposso usare per riempire;
+        let containerContacts = document.querySelector('.containerContacts')
 
-    mostraContatti();
+
+// rubrica attendibile scritta da riempimento
+
+        let rubrica = {
+        listaContatti: [
+
+            {name: `Ismail`, number: 3290018230},
+            {name: `Mohammed`, number: 3201122230},
+        ],
+
+// FUNZIONI PER ATTIVARE OGNI CAMBIAMENTO
+// Mostrami i contatti funzione per vederli a schermo; 
+
+showContacts: function(){
+    this.listaContatti.forEach(contatto => {
+
+let p = document.createElement(`p`)
+p.innerHTML = `${contatto.name}: ${contatto.number}`
+containerContacts.appendChild(p)
+
+    })
+},
+
+// FUNZIONE AGGIUNGO UN CONTATTO 
+addContacts: function(newName, newNumber){
+
+    // CREO OGGETTO CON NEW
+    this.listaContatti.push({name: newName, number: newNumber})
+
+},
+
+
+// RIMUOVI CONTATTI FUNZIONE(Scelta Metodo)
+removeContacts: function(removeName){
+ let filtered = this.listaContatti.filter(contatto=> contatto.name != removeName)
+    // aggiungo valore solo a quali devo vedere
+    this.listaContatti = filtered
+},
+
+
+// MODIFICO UN CONTATTO funzione
+editContacts: function(nome,numero){
+this.listaContatti.forEach(contatto =>{
+        if(contatto.name == nome){
+            contatto.number = numero
+        }
+    })
+
 }
+        }
+
+
+// BOTTONI__________________________________________
 
 
 
-
-
-// MOSTRA O NASCONDE I CONTATTI
-
-function mostraNascondi() {
-    if (contattiVisibili == true) {
-        contattiVisibili = false;
-    } else {
-        contattiVisibili = true;
+// SHOW CONTACTS (MOSTRO I CONTATTI)
+btnShow.addEventListener('click', ()=>{
+    if(check == false){
+        rubrica.showContacts()
+        btnShow.innerHTML = `Nacondi contatti`
+        check =true
+    }else{
+       check=false;
+        containerContacts.innerHTML = ``
+        btnShow.innerHTML = `Mostra contatti`
     }
+})
 
 
-    //Richiama funzione e la visualizzazione
-    mostraContatti();
-}
 
-// OPPURE QUESTA FUNZIONE SEMPLIFICATA: 
-// function mostraNascondi() {
-//     contattiVisibili = !contattiVisibili;
-//     mostraContatti();
-// }
+// ADD CONTACTS (AGGIUNGO I CONTATTI)
 
+btnAdd.addEventListener('click', ()=>{
 
-// MOSTRA LA LISTA DEI CONTATTI
-function mostraContatti() {
-let lista = document.getElementById("listaContatti");
-    let numeroContatti = document.getElementById("numeroContatti");
-//aggiorna
-            numeroContatti.innerHTML = contatti.length;
-
-//pulizia del contenitore prima che si riscriva tutto 
-            lista.innerHTML = "";
-//FUNZIONE NASCONDE LISTA
-    if (contattiVisibili == false) {
-        lista.style.display = "none";
-        return;
+    if(nameInput.value != ``){
+        rubrica.addContacts(nameInput.value, numberInput.value)
+        rubrica.showContacts()
+        nameInput.value = ``
+         numberInput.value = ``
     }
-
- //RENDERE LA LISTA VISIBILE
-    lista.style.display = "block";
-//CONDIZIONE, Se non ci sono contatti mostrami messaggio vuoto;
-    if (contatti.length == 0) {
-        lista.innerHTML = '<div class="vuoto">Non ci sono contatti</div>';
-        return;
-    }
-//CICLARE TUTTI CONTATTI IN ARRAY
-    for (let i = 0; i < contatti.length; i++) {
-
-        //Aggiungo pulsanti e contatto in Html:
-
-        lista.innerHTML += `
-            <div class="contatto">
-                <div>
-                    <strong>${contatti[i].nome}</strong><br>
-                    <span>${contatti[i].numero}</span>
-                </div>
-
-                <div class="azioni">
-                    <button class="btn-modifica" onclick="modificaContatto(${i})">Modifica</button>
-                    <button class="btn-elimina" onclick="eliminaContatto(${i})">Elimina</button>
-                </div>
-            </div>
-        `;
-    }
-}
-
-// ELIMINA UN CONTATTO
-function eliminaContatto(posizione) {
-    contatti.splice(posizione, 1);
-    mostraContatti();
-}
-
-// MODIFICA UN CONTATTO
-function modificaContatto(posizione) {
+})
 
 
-    let nuovoNome = prompt("Modifica nome", contatti[posizione].nome);
-    let nuovoNumero = prompt("Modifica numero", contatti[posizione].numero);
-//controllo se i nuovi valori non siano vuoti
-            if (nuovoNome == null || nuovoNumero == null) {
-                return;
-            }
+// DELETE CONTACTS (RIMUOVO CONTATTO)
 
-            if (nuovoNome == "" || nuovoNumero == "") {
-                alert("Nome e numero non possono essere vuoti");
-                return;
-            }
-//aggiorna nome del contatto
-    contatti[posizione].nome = nuovoNome;
-    //aggiorna il numero contatto
-    contatti[posizione].numero = nuovoNumero;
+btnRemove.addEventListener('click', ()=>{
 
-   //mostra lo status iniziale
-    mostraContatti();
-  
+//   if(numberInput.value != ``){
+//         rubrica.removeContacts(nameInput.value)
+        // valore al click del bottone, con valori svuotati
+    //     nameInput.value = ``
+        
+    // }
+
+
+
+    // OPPURE ANCHE CON UN ALERT:
     
-}
+    let nome = prompt("Nome contatto:")
+
+    if(confirm("Eliminare contatto?")){
+        rubrica.removeContacts(nome)
+        rubrica.showContacts()
+    }
+
+})
+
+
+// EVENTI CORRISPONDENTI ALLE FUNZIONI IN ALTO; 
+btnEdit.addEventListener('click', ()=>{
+
+// if(nameInput.value != ``){
+//     rubrica.editContacts(nameInput.value, numberInput.value)
+// rubrica.showContacts()
+//     nameInput.value= ``
+//     numberInput.value= ``
 
 
 
-// PREMENDO INVIO AGGIUNGE IL CONTATTO
+ 
+    let nome = prompt("Nome contatto da modificare:")
 
-document.addEventListener("keydown", function(evento) {
-    if (evento.key == "Enter") {
-        aggiungiContatto();
+    let nuovoNumero = prompt("Nuovo numero:")
+
+    if(confirm("Modificare contatto?")){
+
+        rubrica.editContacts(nome, nuovoNumero)
+        rubrica.showContacts()
     }
 
 
-});
+})
 
-// ALL'INIZIO MOSTRO LA LISTA VUOTA
 
-mostraContatti();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,137 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gioco Rubrica</title>
+    <title>Bootstrap</title>
 
-    <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family:'Times New Roman', Times, serif;
-            background-image: url('./media/sfondo.jpg');
-           background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-
-        .contenitore {
-            width: 90%;
-            max-width: 650px;
-            background-color: white;
-            padding: 25px;
-            border-radius: 20px;
-        }
-
-        h1 {
-            font-size: 44px;
-            text-align: center;
-            color: black;
-            margin-top: 0;
-            font-weight: bold;
-        }
-
-        .telefono {
-            width: 100%;
-            height: 190px;
-            margin: 15px auto;
-            background-color: #222;
-            border-radius: 25px;
-            padding: 12px;
-        }
-
-        .schermo {
-            height: 150px;
-            background-color:yellowgreen;
-            border-radius: 25px;
-            text-align: center;
-            padding-top: 20px;
-            box-sizing: border-box;
-            font-weight: bold;
-            color: black;
-        }
-
-
-        /* sezione inputs */
-        .input-area {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid red;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-
-        button {
-            padding: 10px 14px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .btn-aggiungi {
-            background-color: #198754;
-            color: white;
-        }
-
-        .btn-mostra {
-            background-color: gray;
-            color: white;
-            margin-bottom: 15px;
-        }
-
-        .btn-modifica {
-            background-color: cyan;
-            color: black;
-        }
-
-        .btn-elimina {
-            background-color: grey;
-            color: white;
-        }
-
-        .contatto {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color:wheat;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        .azioni button {
-            margin-left: 5px;
-        }
-
-        .vuoto {
-            text-align: center;
-            color: grey;
-            background-color: white;
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        @media (max-width: 600px) {
-            .input-area {
-                flex-direction: column;
-            }
-
-            .contatto {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-        }
-
-        /* FINE  TYLE CSS INTERNO */
-    </style>
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
 </head>
 
@@ -143,35 +15,44 @@
 <!-- GERARCHIA: ALBERO DEL DOM -->
 <body>
     <!-- CONTENITORE PRINCIPALE/ GENITORE -->
+<div class="container">
+    <div class="row justify-content-center text-center">
+        <div class="col-12 my-5">
+            
+<h1 class="fw-bold">Gioco Rubrica</h1>
+      </div>
 
-    <div class="contenitore">
-        <h1>Gioco Rubrica</h1>
-<!-- DIV AL INTERNO- FIGLI E DISCENDENTI( + IN PROFONDITA') -->
-        <div class="telefono">
-            <div class="schermo">
-                RUBRICA<br>
-                CONTATTI<br>
-                <span id="numeroContatti">0</span>
-            </div>
-        </div>
+<div class="col-12 col-md-6 my-4">
+    <input type="text" placeholder="nome" id="nameInput" class="w-50 rounded-4">
+</div>
+  <div class="col-12 col-md-6 my-4">
+    <input type="number" placeholder="numero" id="numberInput" class="w-50 rounded-3">
+</div>
+        
+<!-- BOTTONI PER FUNZIONALITA' -->
 
-        <!-- MANIPOLABILE DA JS -->
-        <div class="input-area">
-            <input type="text" id="nome" placeholder="Inserisci nome">
-            <input type="text" id="numero" placeholder="Inserisci numero">
-            <button class="btn-aggiungi" onclick="aggiungiContatto()">Aggiungi</button>
-        </div>
+<div class="col-12 my-5">
+    <button class="btn btn-info mt-3" id="btnShow">Mostra contatti</button>
+    <button class="btn btn-success mt-3" id="btnAdd" >Aggiungi Contatto</button>
+       <button class="btn btn-warning mt-3"id="btnEdit">Modifica un contatto</button>
+          <button class="btn btn-danger mt-3" id="btnRemove" >Rimuovi contatto</button>
+</div>
 
-        <button class="btn-mostra" onclick="mostraNascondi()">Mostra / Nascondi contatti</button>
 
-        <div id="listaContatti"></div>
+<!-- DIV CONTENITORE DEI CONTATTI -->
+    <div class=" col-12 containerContacts p-3 mt-3">
+
+</div>
     </div>
-
-
+</div>
+  
     <!-- COLLEGATO MAIN JAVASCRIPT ESTERNO -->
 
 
-    <script src="main.js"></script>
+    <script src="./main.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 
 </html>
