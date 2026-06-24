@@ -135,7 +135,7 @@ btnEdit.addEventListener('click', ()=>{
 //     numberInput.value= ``
 
 
-
+// SEMPRE CON UN PROMT/ALERT COME DIVERSIONE E MAGGIOR DINAMICITA'
  
     let nome = prompt("Nome contatto da modificare:")
 
